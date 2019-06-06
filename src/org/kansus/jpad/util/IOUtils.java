@@ -2,12 +2,24 @@ package org.kansus.jpad.util;
 
 import java.io.*;
 
-public class IOStream {
+/**
+ * Class with utility methods to deal with IO operations.
+ * 
+ * @author Charles Nascimento
+ */
+public class IOUtils {
 
 	public File file;
 	public StringBuilder contents = new StringBuilder();
 
-	public void SaveFile(String path, String value) throws IOException {
+	/**
+	 * Saves a text file at the specified location.
+	 * 
+	 * @param path The path to the location.
+	 * @param value The text.
+	 * @throws IOException
+	 */
+	public void saveFile(String path, String value) throws IOException {
 		file = new File(path);
 		FileWriter fw = new FileWriter(file);
 		BufferedWriter bw = new BufferedWriter(fw);
@@ -17,7 +29,14 @@ public class IOStream {
 		contents.append(value);
 	}
 
-	public String OpenFile(String path) throws IOException {
+	/**
+	 * Loads the content of a text file to the application.
+	 * 
+	 * @param The path to the location.
+	 * @return The text.
+	 * @throws IOException
+	 */
+	public String openFile(String path) throws IOException {
 		contents = new StringBuilder();
 
 		file = new File(path);

@@ -9,16 +9,21 @@ import java.awt.datatransfer.UnsupportedFlavorException;
 import java.awt.Toolkit;
 import java.io.*;
 
-public final class TextTransfer implements ClipboardOwner {
+/**
+ * Class that deals with clipboard operations.
+ * 
+ * @author Charles Nascimento
+ */
+public final class TextTransferUtils implements ClipboardOwner {
 
 	@Override
 	public void lostOwnership(Clipboard aClipboard, Transferable aContents) {
-		// Não faz nada
+
 	}
 
 	/**
-	 * Coloca uma String no Clipboard e faz esta classe a dona dos conteúdos do
-	 * Clipboard.
+	 * Transfers the specified string to the clipboard and makes this class its
+	 * owner.
 	 */
 	public void setClipboardContents(String aString) {
 		StringSelection stringSelection = new StringSelection(aString);
@@ -27,22 +32,22 @@ public final class TextTransfer implements ClipboardOwner {
 	}
 
 	/**
-	 * Pega a String residindo no Clipboard.
+	 * Retrieves the text content currently in the clipboard.
 	 * 
-	 * @return Qualquer texto encontrado no Clipboard; Se nenhum for encontrado,
-	 *         uma String vazia será retornada.
+	 * @return The text content currently in the clipboard; If none, an empty
+	 *         string is returned.
 	 */
 	public String getClipboardContents() {
 		String result = "";
 		Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
-		// odd: the Object param of getContents is not currently used
+		
 		Transferable contents = clipboard.getContents(null);
 		boolean hasTransferableText = (contents != null) && contents.isDataFlavorSupported(DataFlavor.stringFlavor);
+
 		if (hasTransferableText) {
 			try {
 				result = (String) contents.getTransferData(DataFlavor.stringFlavor);
 			} catch (UnsupportedFlavorException ex) {
-				// highly unlikely since we are using a standard DataFlavor
 				System.out.println(ex);
 				ex.printStackTrace();
 			} catch (IOException ex) {

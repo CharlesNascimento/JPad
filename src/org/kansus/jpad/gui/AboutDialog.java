@@ -13,32 +13,28 @@ import javax.swing.JPanel;
 import javax.swing.JSeparator;
 import javax.swing.border.EmptyBorder;
 
-public class About extends JDialog {
+/**
+ * Dialog with information about the application.
+ * 
+ * @author Charles Nascimento
+ */
+public class AboutDialog extends JDialog {
 
 	private static final long serialVersionUID = -716622569011031030L;
 
 	private final JPanel contentPanel = new JPanel();
 
 	/**
-	 * Launch the application.
+	 * Creates the dialog.
 	 */
-	public static void main(String[] args) {
-		try {
-			About dialog = new About();
-			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-			dialog.setVisible(true);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-
-	/**
-	 * Create the dialog.
-	 */
-	public About() {
+	public AboutDialog() {
 		initialize();
 	}
 
+	
+	/**
+	 * Builds the Graphical User Interface 
+	 */
 	private void initialize() {
 		setResizable(false);
 		setTitle("Sobre o JPad");
@@ -51,7 +47,7 @@ public class About extends JDialog {
 
 		JLabel lblNewLabel = new JLabel("");
 		lblNewLabel.setBounds(117, 10, 200, 50);
-		lblNewLabel.setIcon(new ImageIcon(About.class.getResource("/org/kansus/jpad/res/kansus.png")));
+		lblNewLabel.setIcon(new ImageIcon(AboutDialog.class.getResource("/org/kansus/jpad/res/kansus.png")));
 		contentPanel.add(lblNewLabel);
 
 		JSeparator separator = new JSeparator();

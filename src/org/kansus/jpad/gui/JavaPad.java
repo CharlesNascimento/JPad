@@ -42,24 +42,28 @@ import javax.swing.event.UndoableEditListener;
 import javax.swing.undo.CannotRedoException;
 import javax.swing.undo.UndoManager;
 
-import org.kansus.jpad.util.IOStream;
-import org.kansus.jpad.util.TextTransfer;
+import org.kansus.jpad.util.IOUtils;
+import org.kansus.jpad.util.TextTransferUtils;
 
+/**
+ * Main window of the application.
+ * 
+ * @author Charles Nascimento
+ */
 public class JavaPad extends JFrame {
 
 	private static final long serialVersionUID = -8232116481515580406L;
 
 	private JPanel contentPane;
 	public JTextArea textArea = new JTextArea();
-	private TextTransfer transfer = new TextTransfer();
+	private TextTransferUtils transfer = new TextTransferUtils();
 	private StatusBar statusBar = new StatusBar();
-	private IOStream io = new IOStream();
+	private IOUtils io = new IOUtils();
 	static JavaPad frame;
 	private UndoManager undoManager = new UndoManager();
 
 	/**
-	 * Launch the application.
-	 * 
+	 * Launches the application.
 	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -83,20 +87,28 @@ public class JavaPad extends JFrame {
 	}
 
 	/**
-	 * Create the frame.
+	 * Creates the window.
 	 */
 	public JavaPad() {
 		initialize();
 	}
 
-	public void insertAtCursor(String myValue) {
+	/**
+	 * Inserts the informed text at the caret position.
+	 * 
+	 * @param text
+	 */
+	public void insertAtCursor(String text) {
 		int startPos = textArea.getSelectionStart();
 		int endPos = textArea.getSelectionEnd();
-		textArea.setText(textArea.getText().substring(0, startPos) + myValue
+		textArea.setText(textArea.getText().substring(0, startPos) + text
 				+ textArea.getText().substring(endPos, textArea.getText().length()));
-		textArea.setSelectionStart(startPos + myValue.length());
+		textArea.setSelectionStart(startPos + text.length());
 	}
 
+	/**
+	 * Builds the Graphical User Interface.
+	 */
 	private void initialize() {
 		textArea.getDocument().addUndoableEditListener(new UndoableEditListener() {
 			public void undoableEditHappened(UndoableEditEvent e) {
@@ -124,14 +136,14 @@ public class JavaPad extends JFrame {
 								int response = sfd.showSaveDialog(getParent());
 								if (response == JFileChooser.APPROVE_OPTION) {
 									try {
-										io.SaveFile(sfd.getSelectedFile().getAbsolutePath(), textArea.getText());
+										io.saveFile(sfd.getSelectedFile().getAbsolutePath(), textArea.getText());
 									} catch (IOException e) {
 										e.printStackTrace();
 									}
 								}
 							} else {
 								try {
-									io.SaveFile(io.file.getAbsolutePath(), textArea.getText());
+									io.saveFile(io.file.getAbsolutePath(), textArea.getText());
 								} catch (IOException e) {
 									e.printStackTrace();
 								}
@@ -183,14 +195,14 @@ public class JavaPad extends JFrame {
 								int response = sfd.showSaveDialog(getParent());
 								if (response == JFileChooser.APPROVE_OPTION) {
 									try {
-										io.SaveFile(sfd.getSelectedFile().getAbsolutePath(), textArea.getText());
+										io.saveFile(sfd.getSelectedFile().getAbsolutePath(), textArea.getText());
 									} catch (IOException e) {
 										e.printStackTrace();
 									}
 								}
 							} else {
 								try {
-									io.SaveFile(io.file.getAbsolutePath(), textArea.getText());
+									io.saveFile(io.file.getAbsolutePath(), textArea.getText());
 								} catch (IOException e) {
 									e.printStackTrace();
 								}
@@ -234,14 +246,14 @@ public class JavaPad extends JFrame {
 								int response = sfd.showSaveDialog(getParent());
 								if (response == JFileChooser.APPROVE_OPTION) {
 									try {
-										io.SaveFile(sfd.getSelectedFile().getAbsolutePath(), textArea.getText());
+										io.saveFile(sfd.getSelectedFile().getAbsolutePath(), textArea.getText());
 									} catch (IOException e) {
 										e.printStackTrace();
 									}
 								}
 							} else {
 								try {
-									io.SaveFile(io.file.getAbsolutePath(), textArea.getText());
+									io.saveFile(io.file.getAbsolutePath(), textArea.getText());
 								} catch (IOException e) {
 									e.printStackTrace();
 								}
@@ -256,7 +268,7 @@ public class JavaPad extends JFrame {
 						if (response == JFileChooser.APPROVE_OPTION) {
 							try {
 								textArea.setText("");
-								textArea.setText(io.OpenFile(ofd.getSelectedFile().getAbsolutePath()));
+								textArea.setText(io.openFile(ofd.getSelectedFile().getAbsolutePath()));
 							} catch (IOException e) {
 								e.printStackTrace();
 							}
@@ -272,7 +284,7 @@ public class JavaPad extends JFrame {
 					if (response == JFileChooser.APPROVE_OPTION) {
 						try {
 							textArea.setText("");
-							textArea.setText(io.OpenFile(ofd.getSelectedFile().getAbsolutePath()));
+							textArea.setText(io.openFile(ofd.getSelectedFile().getAbsolutePath()));
 						} catch (IOException e) {
 							e.printStackTrace();
 						}
@@ -299,7 +311,7 @@ public class JavaPad extends JFrame {
 					int response = sfd.showSaveDialog(getParent());
 					if (response == JFileChooser.APPROVE_OPTION) {
 						try {
-							io.SaveFile(sfd.getSelectedFile().getAbsolutePath(), textArea.getText());
+							io.saveFile(sfd.getSelectedFile().getAbsolutePath(), textArea.getText());
 						} catch (IOException e) {
 							e.printStackTrace();
 						}
@@ -307,7 +319,7 @@ public class JavaPad extends JFrame {
 					}
 				} else {
 					try {
-						io.SaveFile(io.file.getAbsolutePath(), textArea.getText());
+						io.saveFile(io.file.getAbsolutePath(), textArea.getText());
 					} catch (IOException e) {
 						e.printStackTrace();
 					}
@@ -331,7 +343,7 @@ public class JavaPad extends JFrame {
 				int response = sfd.showSaveDialog(getParent());
 				if (response == JFileChooser.APPROVE_OPTION) {
 					try {
-						io.SaveFile(sfd.getSelectedFile().getAbsolutePath(), textArea.getText());
+						io.saveFile(sfd.getSelectedFile().getAbsolutePath(), textArea.getText());
 					} catch (IOException e) {
 						e.printStackTrace();
 					}
@@ -495,7 +507,7 @@ public class JavaPad extends JFrame {
 		JMenuItem mntmSobreOJpad = new JMenuItem("Sobre o JPad");
 		mntmSobreOJpad.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				About about = new About();
+				AboutDialog about = new AboutDialog();
 				about.setLocationRelativeTo(null);
 				about.setVisible(true);
 			}
@@ -524,6 +536,11 @@ public class JavaPad extends JFrame {
 		contentPane.add(statusBar, BorderLayout.SOUTH);
 	}
 
+	/**
+	 * Status bar.
+	 * 
+	 * @author Charles Nascimento
+	 */
 	public class StatusBar extends JLabel {
 
 		private static final long serialVersionUID = -465669134493206484L;
